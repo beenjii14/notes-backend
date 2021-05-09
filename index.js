@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 
 const app = express()
+const config = require('./config/index')
 const { logger } = require('./loggerMiddleware')
 
 app.use(cors())
@@ -72,6 +73,6 @@ app.use((req, res) => {
   res.status(404).send('<h1>Not found 404</h1>')
 })
 
-app.listen(3000, () => {
-  console.log('On listen port 3000')
+app.listen(config.PORT, () => {
+  console.log(`On listen port ${config.PORT}`)
 })
