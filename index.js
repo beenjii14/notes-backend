@@ -1,8 +1,10 @@
 const express = require('express')
 const cors = require('cors')
+const mongoose = require('mongoose')
 
 const app = express()
 const config = require('./config/index')
+console.log('benji -> config', config)
 const { logger } = require('./loggerMiddleware')
 
 app.use(cors())
@@ -73,6 +75,15 @@ app.use((req, res) => {
   res.status(404).send('<h1>Not found 404</h1>')
 })
 
-app.listen(config.PORT, () => {
-  console.log(`On listen port ${config.PORT}`)
+mongoose.connect(config.DB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+}).then(() => {
+  app.listen(config.PORT, () => {
+    console.log(`On listen port ${config.PORT}`)
+  })
+}).catch(error => {
+  console.log(`No se pudo conectar a la BD ${error}`)
 })
